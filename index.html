@@ -492,7 +492,8 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 .sx-table .age.est{color:var(--muted);font-weight:500}
 .lvl{display:inline-block;font-weight:700;font-size:12px;border-radius:999px;padding:1px 8px;border:1px solid currentColor}
 .lvl.l2{color:var(--red)} .lvl.l1{color:var(--orange)}
-.cat{font-size:12px;color:var(--muted)}
+.cat{font-size:12px;color:var(--muted);margin-left:4px}
+.sx-table td.lv{white-space:nowrap}
 .sx-new{display:inline-block;margin-left:6px;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;border:1px solid currentColor;border-radius:4px;padding:0 4px;vertical-align:1px;color:var(--green)}
 .sx-in{margin-left:6px;color:var(--blue);font-weight:700}
 .sx-det td{background:var(--rowhover);padding-top:0}
@@ -1655,12 +1656,12 @@ function sxRender(){
   document.querySelectorAll("#sx-thead [data-sort]").forEach(b => { const on = b.dataset.sort === sx.sort; b.textContent = b.dataset.label + (on ? (sx.dir > 0 ? " ↑" : " ↓") : ""); });
   const cols = 5;
   $("sx-body").innerHTML = list.length ? list.map(p => {
-    const lv = `<span class="lvl ${p.years_ahead >= 2 ? "l2" : "l1"}">${esc(p.level)}</span> <span class="cat">${esc(p.category)}</span>`;
+    const lv = `<span class="lvl ${p.years_ahead >= 2 ? "l2" : "l1"}">${esc(p.level)}</span><span class="cat">${esc(p.category)}</span>`;
     const base = inBase(p);
     const row = `<tr class="sx-row" data-sx="${esc(p.id)}" tabindex="0" aria-expanded="${sx.open === p.id}">
       <td><span class="nm1"><span class="tname">${esc(p.name)}</span>${p.new_this_week ? `<span class="sx-new">New</span>` : ""}${base ? `<span class="sx-in" title="Already in your players">✓</span>` : ""}</span><span class="sub2">${esc(p.club)}</span></td>
       <td class="num"><span class="age ${p.birth_date ? "" : "est"}">${ageTxt(p)}</span><span class="sub2">${p.birth_date ? esc(fmtDate(p.birth_date)) : p.birth_year}</span></td>
-      <td>${lv}</td>
+      <td class="lv">${lv}</td>
       <td class="hide-sm dim">${p.weekend_match ? esc(p.weekend_match.replace(/^U1[68] Elite( 2)? /, "")) : "—"}</td>
       <td class="num">${p.matches_up}</td></tr>`;
     if (sx.open !== p.id) return row;
