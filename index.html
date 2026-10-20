@@ -600,8 +600,8 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 .ic{display:inline-block;line-height:1}
 .ic.ball{font-size:12px}
 .ic.ball.og{filter:grayscale(1)}
-.ic.card{width:8px;height:11px;border-radius:2px}
-.ic.card.y{background:#f5c518} .ic.card.r{background:#e03131}
+.ic.crd{width:8px;height:11px;border-radius:2px}
+.ic.crd.y{background:#f5c518} .ic.crd.r{background:#e03131}
 .ic.sub{font-weight:800;font-size:12px}
 .ic.sub.in{color:var(--green)} .ic.sub.out{color:var(--red)}
 @media (max-width:640px){ .mt-lineups{grid-template-columns:1fr} .mt-score .tm{font-size:15px} .mt-score .clogo{width:24px;height:24px} .mt-score .sc{font-size:20px;padding:3px 10px} }
@@ -1855,7 +1855,7 @@ $("lg-last").addEventListener("keydown", e => { const r = e.target.closest("[dat
 /* ---------- feuille de match ---------- */
 let mtLastFocus = null;
 const MT_ICON = { goal: '<span class="ic ball" aria-label="But">⚽</span>', penalty: '<span class="ic ball" aria-label="But sur penalty">⚽</span>', owngoal: '<span class="ic ball og" aria-label="But contre son camp">⚽</span>',
-  yellow: '<span class="ic card y" aria-label="Carton jaune"></span>', red: '<span class="ic card r" aria-label="Carton rouge"></span>', yellowred: '<span class="ic card y"></span><span class="ic card r" aria-label="Deuxième jaune"></span>',
+  yellow: '<span class="ic crd y" aria-label="Carton jaune"></span>', red: '<span class="ic crd r" aria-label="Carton rouge"></span>', yellowred: '<span class="ic crd y"></span><span class="ic crd r" aria-label="Deuxième jaune"></span>',
   in: '<span class="ic sub in" aria-label="Entré">↑</span>', out: '<span class="ic sub out" aria-label="Sorti">↓</span>' };
 const MT_TXT = { goal: "But", penalty: "But (penalty)", owngoal: "But contre son camp", yellow: "Carton jaune", red: "Carton rouge", yellowred: "Deuxième jaune" };
 function mtPlayer(p){
