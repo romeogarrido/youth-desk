@@ -616,6 +616,12 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 .ev-teams span:first-child{justify-content:flex-end;grid-column:1}
 .ev-teams span:last-child{grid-column:3}
 .ev-teams .clogo{width:16px;height:16px;margin:0}
+
+.sx-tile[data-pill]{cursor:pointer;color:var(--fg);font:inherit;transition:background .15s,border-color .15s}
+.sx-tile[data-pill]:hover{background:var(--hover)}
+.sx-tile[data-pill][aria-pressed="true"]{border-color:var(--fg);background:var(--raised)}
+.sx-tile[data-pill]:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.sx-chip{all:unset;cursor:pointer;color:var(--blue);font-weight:600}
 </style>
 </head>
 <body>
@@ -1747,7 +1753,7 @@ $("reset-demo").onclick = () => { resetDemo(); closeSheet(); rows = []; load(tru
 
 /* ================= Surclassés tracker ================= */
 const SX = JSON.parse(document.getElementById("sx-data").textContent);
-const sx = { when: "weekend", level: "all", cat: "all", club: "", q: "", sort: "years_ahead", dir: -1, open: null };
+const sx = { when: "weekend", level: "all", cat: "all", club: "", q: "", mine: false, sort: "years_ahead", dir: -1, open: null };
 const TM_POS = { "Goalkeeper": "GK (1)", "Centre-Back": "CB (4)", "Right-Back": "RB (2)", "Left-Back": "LB (3)", "Defensive Midfield": "DM (6)",
   "Central Midfield": "CM (8)", "Attacking Midfield": "AM (10)", "Right Winger": "RW (7)", "Left Winger": "LW (11)", "Right Midfield": "RW (7)",
   "Left Midfield": "LW (11)", "Centre-Forward": "ST (9)", "Second Striker": "ST (9)" };
@@ -1767,7 +1773,7 @@ function sxList(){
   let list = SX.players.filter(p => (sx.when === "season" || p.this_weekend)
     && (sx.level === "all" || (sx.level === "2" ? p.years_ahead >= 2 : p.years_ahead === 1))
     && (sx.cat === "all" || p.category === sx.cat) && (!sx.club || p.club === sx.club)
-    && (!sx.q || (p.name + " " + p.club).toLowerCase().includes(sx.q)));
+    && (!sx.q || (p.name + " " + p.club).toLowerCase().includes(sx.q)) && (!sx.mine || inBase(p)));
   const k = sx.sort;
   list.sort((a, b) => { const va = a[k] ?? "", vb = b[k] ?? ""; const c = typeof va === "number" ? va - vb : String(va).localeCompare(String(vb));
     return c * sx.dir || b.years_ahead - a.years_ahead || b.matches_up - a.matches_up || a.name.localeCompare(b.name); });
@@ -1788,8 +1794,10 @@ function sxRender(){
   if ($("sx-club").options.length !== clubs.length + 1) $("sx-club").innerHTML = `<option value="">Tous les clubs</option>` + clubs.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
   $("sx-club").value = sx.club; $("sx-club").classList.toggle("on", !!sx.club);
   document.querySelectorAll("#sx-filters [data-f]").forEach(b => b.setAttribute("aria-pressed", String(sx[b.dataset.f] === b.dataset.v)));
+  const pillOn = { w2: sx.when === "weekend" && sx.level === "2", w1: sx.when === "weekend" && sx.level === "1", season: sx.when === "season" && sx.level === "all" && !sx.mine, mine: sx.mine };
+  document.querySelectorAll(".sx-tile[data-pill]").forEach(t => t.setAttribute("aria-pressed", String(!!pillOn[t.dataset.pill] && !sx.club && !sx.q && sx.cat === "all")));
   const list = sxList();
-  $("sx-count").textContent = `${list.length} joueur${list.length === 1 ? "" : "s"}${sx.when === "weekend" ? " ayant joué le week-end dernier" : " cette saison"}`;
+  $("sx-count").innerHTML = esc(`${list.length} joueur${list.length === 1 ? "" : "s"}${sx.when === "weekend" ? " ayant joué le week-end dernier" : " cette saison"}`) + (sx.mine ? ` · <button type="button" class="sx-chip" id="sx-mine-x">Dans vos joueurs ×</button>` : "");
   document.querySelectorAll("#sx-thead [data-sort]").forEach(b => { const on = b.dataset.sort === sx.sort; b.textContent = b.dataset.label + (on ? (sx.dir > 0 ? " ↑" : " ↓") : ""); });
   const cols = 7;
   $("sx-body").innerHTML = list.length ? list.map(p => {
@@ -1815,7 +1823,7 @@ function sxRender(){
     </div></td></tr>`;
   }).join("") : `<tr><td colspan="${cols}" class="empty" style="white-space:normal">${sx.when === "weekend" ? "Aucun joueur ne correspond à ces filtres le week-end dernier. Essayez « Toute la saison »." : "Aucun joueur ne correspond à ces filtres."}</td></tr>`;
 }
-$("sx-filters").addEventListener("click", e => { const b = e.target.closest("[data-f]"); if (!b) return; sx[b.dataset.f] = b.dataset.v; sx.open = null; sxRender(); });
+$("sx-filters").addEventListener("click", e => { const b = e.target.closest("[data-f]"); if (!b) return; sx[b.dataset.f] = b.dataset.v; sx.open = null; sxRender(); lgRender(); });
 $("sx-club").addEventListener("change", () => { sx.club = $("sx-club").value; sxRender(); lgRender(); });
 $("sx-q").addEventListener("input", () => { sx.q = $("sx-q").value.trim().toLowerCase(); sxRender(); });
 $("sx-thead").addEventListener("click", e => { const b = e.target.closest("[data-sort]"); if (!b) return; const k = b.dataset.sort;
@@ -1837,6 +1845,28 @@ $("sx-body").addEventListener("click", async e => {
   const tr = e.target.closest("tr.sx-row"); if (tr) sxToggle(tr);
 });
 $("sx-body").addEventListener("keydown", e => { const tr = e.target.closest("tr.sx-row"); if (tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); sxToggle(tr); } });
+
+/* ---------- pastilles cliquables ---------- */
+(() => {
+  const keys = ["w2", "w1", "season", "mine"];
+  document.querySelectorAll(".sx-tiles .sx-tile").forEach((t, i) => { t.dataset.pill = keys[i]; t.setAttribute("role", "button"); t.tabIndex = 0; });
+  const go = k => {
+    Object.assign(sx, { club: "", q: "", cat: "all", open: null, mine: false });
+    $("sx-q").value = "";
+    if (k === "w2") Object.assign(sx, { when: "weekend", level: "2" });
+    if (k === "w1") Object.assign(sx, { when: "weekend", level: "1" });
+    if (k === "season") Object.assign(sx, { when: "season", level: "all" });
+    if (k === "mine") {
+      if (!SX.players.some(p => inBase(p))) { toast("Aucun surclassé dans vos joueurs pour l'instant. Ouvrez un joueur de la liste et touchez « ＋ Ajouter à mes joueurs »."); return; }
+      Object.assign(sx, { when: "season", level: "all", mine: true });
+    }
+    sxRender(); lgRender(); $("sx-filters").scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  };
+  const box = document.querySelector(".sx-tiles");
+  box.addEventListener("click", e => { const t = e.target.closest("[data-pill]"); if (t) go(t.dataset.pill); });
+  box.addEventListener("keydown", e => { const t = e.target.closest("[data-pill]"); if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); go(t.dataset.pill); } });
+  $("sx-count").addEventListener("click", e => { if (e.target.id === "sx-mine-x") { sx.mine = false; sxRender(); } });
+})();
 
 /* ---------- championnat: classement + dernière journée (RBFA) ---------- */
 const lg = { series: "U18 Elite" };
