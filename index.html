@@ -464,14 +464,14 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 .rauthor{color:var(--muted)}
 .sxtag{color:var(--orange)}
 
-#v-sx{display:flex;flex-direction:column;gap:14px}
+#v-sx{display:flex;flex-direction:column;gap:10px}
 #v-sx[hidden]{display:none!important}
-.sx-head h2{margin:0;font-size:22px;letter-spacing:-.01em}
-.sx-head p{margin:4px 0 0;color:var(--muted);font-size:13px;max-width:80ch}
-.sx-head .lede{color:var(--fg);font-size:15px}
-.sx-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px}
-.sx-tile{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
-.sx-tile .v{font-size:28px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sx-head h2{margin:0;font-size:20px;letter-spacing:-.01em}
+.sx-head p{margin:2px 0 0;color:var(--muted);font-size:12px;max-width:none}
+.sx-head .lede{color:var(--fg);font-size:14px;margin-top:4px}
+.sx-tiles{display:flex;flex-wrap:wrap;gap:6px}
+.sx-tile{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 12px;display:inline-flex;align-items:baseline;gap:7px}
+.sx-tile .v{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
 .sx-tile .k{font-size:12px;color:var(--muted)}
 .sx-tile.t2 .v{color:var(--red)} .sx-tile.t1 .v{color:var(--orange)}
 .sx-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
@@ -609,10 +609,10 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
       <p id="sx-meta"></p>
     </div>
     <div class="sx-tiles">
-      <div class="sx-tile t2"><span class="v" id="sx-n2">–</span><span class="k">+2 ans · ont joué le week-end dernier</span></div>
-      <div class="sx-tile t1"><span class="v" id="sx-n1">–</span><span class="k">+1 an · ont joué le week-end dernier</span></div>
-      <div class="sx-tile"><span class="v" id="sx-nt">–</span><span class="k">Surclassés cette saison</span></div>
-      <div class="sx-tile"><span class="v" id="sx-nb">–</span><span class="k">Déjà dans vos joueurs</span></div>
+      <div class="sx-tile t2"><span class="v" id="sx-n2">–</span><span class="k">+2 ans ce week-end</span></div>
+      <div class="sx-tile t1"><span class="v" id="sx-n1">–</span><span class="k">+1 an ce week-end</span></div>
+      <div class="sx-tile"><span class="v" id="sx-nt">–</span><span class="k">sur la saison</span></div>
+      <div class="sx-tile"><span class="v" id="sx-nb">–</span><span class="k">dans vos joueurs</span></div>
     </div>
     <section class="sx-card" aria-label="Liste des surclassés">
       <div class="sx-filters" id="sx-filters">
@@ -1651,7 +1651,7 @@ function sxRender(){
   const wk = all.filter(p => p.this_weekend);
   const wkTxt = sxDate(s.weekend_from) + (s.weekend_to && s.weekend_to !== s.weekend_from ? "–" + sxDate(s.weekend_to) : "");
   $("sx-lede").textContent = `Le week-end dernier (${wkTxt}, ${s.matches_weekend} matchs), ${wk.length} joueurs ont joué au-dessus de leur catégorie d'âge, dont ${wk.filter(p => p.years_ahead >= 2).length} avec deux ans d'avance.`;
-  $("sx-meta").textContent = `Saison ${s.season} · mis à jour le ${sxLong(s.updated)} · ${s.matches_season} matchs lus en U18 Elite, U18 Elite 2, U16 Elite et U16 Elite 2`;
+  $("sx-meta").textContent = `Saison ${s.season} · mis à jour le ${sxLong(s.updated)} · ${s.matches_season} matchs lus`;
   $("sx-n2").textContent = wk.filter(p => p.years_ahead >= 2).length;
   $("sx-n1").textContent = wk.filter(p => p.years_ahead === 1).length;
   $("sx-nt").textContent = all.length;
