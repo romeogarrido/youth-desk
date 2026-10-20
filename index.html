@@ -552,6 +552,9 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 
 .lg-tbl,.sx-table{min-width:0}
 .lg-tbl th:nth-child(2){width:100%}
+
+.lg-m .h .lg-sx{margin:0 6px 0 0}
+.lg-m .t:has(.lg-sx){cursor:pointer}
 </style>
 </head>
 <body>
@@ -668,7 +671,7 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
         <div class="lg-table"><h4>Classement</h4><div class="lg-scroll"><table class="lg-tbl">
           <thead><tr><th class="n">#</th><th>Équipe</th><th class="n">J</th><th class="n hide-sm">G-N-P</th><th class="n hide-sm">Buts</th><th class="n">Diff.</th><th class="n">Pts</th></tr></thead>
           <tbody id="lg-body"></tbody></table></div>
-          <p class="lg-hint">Le chiffre orange = surclassés du club cette saison. Touchez une équipe pour voir ses surclassés.</p></div>
+          <p class="lg-hint">Chiffre orange : dans le classement, les surclassés du club cette saison ; dans la dernière journée, ceux qui ont joué ce match. Touchez une équipe pour voir ses surclassés.</p></div>
       </div>
     </section>
     <section class="sx-card" aria-label="Liste des surclassés">
@@ -1777,9 +1780,12 @@ function lgRender(){
   $("lg-series").innerHTML = Object.keys(L).map(k => `<button type="button" data-lg="${esc(k)}" aria-pressed="${k === lg.series}">${esc(k)}</button>`).join("");
   const day = S.last.length ? S.last[S.last.length - 1].date : "";
   $("lg-last-t").textContent = day ? `Dernière journée · ${sxLong(day)}` : "Dernière journée";
+  // surclassés of a team who played (started or came on) in this match
+  const played = (club, m) => SX.players.filter(p => p.club === club && (SX.apps[p.id] || []).some(a => a[0] === m.date && a[1] === lg.series && a[5] !== "B"));
+  const badge = (club, m) => { const ps = played(club, m); return ps.length ? `<span class="lg-sx" title="${esc(ps.map(p => p.name).join(", "))}">${ps.length}</span>` : ""; };
   $("lg-last").innerHTML = S.last.map(m => {
     const hw = m.hg > m.ag, aw = m.ag > m.hg;
-    return `<div class="lg-m"><span class="t h ${hw ? "w" : ""}">${esc(m.home)}</span><span class="sc num">${m.hg} – ${m.ag}</span><span class="t a ${aw ? "w" : ""}">${esc(m.away)}</span></div>`;
+    return `<div class="lg-m"><span class="t h ${hw ? "w" : ""}" data-lg-club="${esc(m.home)}">${badge(m.home, m)}${esc(m.home)}</span><span class="sc num">${m.hg} – ${m.ag}</span><span class="t a ${aw ? "w" : ""}" data-lg-club="${esc(m.away)}">${esc(m.away)}${badge(m.away, m)}</span></div>`;
   }).join("") || `<p class="lg-hint">Pas encore de match joué.</p>`;
   const cat = lg.series.startsWith("U18") ? "U18" : "U16";
   const nSx = club => SX.players.filter(p => p.club === club && p.category === cat).length;
@@ -1789,6 +1795,7 @@ function lgRender(){
 $("lg-series").addEventListener("click", e => { const b = e.target.closest("[data-lg]"); if (b) { lg.series = b.dataset.lg; lgRender(); } });
 const lgPick = tr => { const c = tr.dataset.lgClub; sx.club = sx.club === c ? "" : c; sx.when = "season"; sx.cat = lg.series.startsWith("U18") ? "U18" : "U16"; sx.open = null; sxRender(); lgRender(); $("sx-q").scrollIntoView({ block: "nearest" }); };
 $("lg-body").addEventListener("click", e => { const tr = e.target.closest("tr[data-lg-club]"); if (tr) lgPick(tr); });
+$("lg-last").addEventListener("click", e => { const t = e.target.closest("[data-lg-club]"); if (t && t.querySelector(".lg-sx")) lgPick(t); });
 $("lg-body").addEventListener("keydown", e => { const tr = e.target.closest("tr[data-lg-club]"); if (tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); lgPick(tr); } });
 
 /* ---------- tabs ---------- */
