@@ -464,48 +464,49 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 .rauthor{color:var(--muted)}
 .sxtag{color:var(--orange)}
 
-#v-sx{display:flex;flex-direction:column;gap:14px}
+#v-sx{display:flex;flex-direction:column;gap:12px}
 #v-sx[hidden]{display:none!important}
 .sx-head h2{margin:0;font-size:22px;letter-spacing:-.01em}
-.sx-head p{margin:4px 0 0;color:var(--muted);font-size:13px;max-width:80ch}
-.sx-head .lede{color:var(--fg);font-size:15px}
-.sx-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px}
-.sx-tile{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
-.sx-tile .v{font-size:28px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.sx-tile .k{font-size:12px;color:var(--muted)}
-.sx-tile.t2 .v{color:var(--red)} .sx-tile.t1 .v{color:var(--orange)}
-.sx-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.sx-head .lede{margin:4px 0 0;color:var(--muted);font-size:14px}
+.sx-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
 .sx-filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.sx-filters input[type=search]{flex:1 1 160px;max-width:240px}
+.sx-filters .c{color:var(--faint);font-weight:400;margin-left:2px;font-variant-numeric:tabular-nums}
+.sx-filters [aria-pressed="true"] .c{color:inherit;opacity:.7}
+.sx-filters input[type=search]{flex:1 1 120px;max-width:200px}
 .sx-filters input,.sx-filters select{background:var(--raised);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px}
 .sx-filters select.on{border-color:var(--blue)}
-.sx-count{font-size:12px;color:var(--muted)}
-.sx-scroll{overflow:auto;max-height:70vh;margin:0 -14px;padding:0 14px}
+.sx-scroll{overflow:auto;max-height:72vh;margin:0 -14px;padding:0 14px}
 .sx-table{width:100%;border-collapse:collapse;font-size:13px}
-.sx-table th{position:sticky;top:0;background:var(--panel);text-align:left;font-weight:600;color:var(--muted);font-size:12px;padding:6px 10px 6px 0;border-bottom:1px solid var(--line);white-space:nowrap;z-index:1}
+.sx-table th{position:sticky;top:0;background:var(--panel);text-align:left;font-weight:500;color:var(--faint);font-size:12px;padding:8px 12px 8px 0;border-bottom:1px solid var(--line);white-space:nowrap;z-index:1}
 .sx-table th button{all:unset;cursor:pointer}
-.sx-table td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.sx-table td{padding:9px 12px 9px 0;border-bottom:1px solid var(--line);vertical-align:middle}
 .sx-table td.num,.sx-table th.num{text-align:right}
+.sx-table tr:last-child td{border-bottom:0}
 .sx-table .sx-row{cursor:pointer}
 .sx-table .sx-row:hover td{background:var(--rowhover)}
 .sx-table .sx-row[aria-expanded="true"] td{background:var(--rowhover);border-bottom-color:transparent}
-.sx-table .sub2{display:block;font-size:11px;color:var(--muted)}
+.sx-table .tname{font-weight:600;font-size:14px}
+.sx-table .sub2{display:block;font-size:12px;color:var(--muted)}
 .sx-table .dim{color:var(--muted)}
+.sx-table .age{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.sx-table .age.est{color:var(--muted);font-weight:500}
 .lvl{display:inline-block;font-weight:700;font-size:12px;border-radius:999px;padding:1px 8px;border:1px solid currentColor}
 .lvl.l2{color:var(--red)} .lvl.l1{color:var(--orange)}
-.est{color:var(--orange)}
-.sx-new,.sx-in{display:inline-block;margin-left:6px;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;border:1px solid currentColor;border-radius:4px;padding:0 4px;vertical-align:1px}
-.sx-new{color:var(--green)} .sx-in{color:var(--blue)}
+.cat{font-size:12px;color:var(--muted)}
+.sx-new{display:inline-block;margin-left:6px;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;border:1px solid currentColor;border-radius:4px;padding:0 4px;vertical-align:1px;color:var(--green)}
+.sx-in{margin-left:6px;color:var(--blue);font-weight:700}
 .sx-det td{background:var(--rowhover);padding-top:0}
-.sx-detail{display:flex;flex-direction:column;gap:10px;padding:4px 0 6px}
-.sx-dh{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
-.sx-ms{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:4px 16px}
-.sx-m{display:grid;grid-template-columns:52px minmax(0,1fr) auto;grid-template-areas:"d o sc" "d s r";gap:0 8px;padding:6px 8px;border-radius:8px;background:var(--bg);font-size:12px;border-left:2px solid transparent}
+.sx-detail{display:flex;flex-direction:column;gap:10px;padding:2px 0 8px}
+.sx-dh{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;line-height:1.5}
+.sx-ms{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:4px 12px}
+.sx-m{display:grid;grid-template-columns:48px minmax(0,1fr) auto;grid-template-areas:"d o sc" "d s r";gap:0 8px;padding:6px 8px;border-radius:8px;background:var(--bg);font-size:12px;border-left:2px solid transparent}
 .sx-m.up{border-left-color:var(--orange)}
 .sx-m .d{grid-area:d;color:var(--muted)} .sx-m .o{grid-area:o;font-weight:600} .sx-m .s{grid-area:s;color:var(--muted)}
 .sx-m .sc{grid-area:sc;text-align:right} .sx-m .r{grid-area:r;color:var(--muted);text-align:right}
-.sx-note{font-size:12px;color:var(--faint);margin:0;max-width:90ch}
-@media (max-width:640px){ .sx-table .hide-sm{display:none} .tabs{width:100%} .tabs button{flex:1;justify-content:center} }
+.sx-how{font-size:12px;color:var(--faint);max-width:90ch}
+.sx-how summary{cursor:pointer;color:var(--muted)}
+.sx-how p{margin:6px 0 0}
+@media (max-width:640px){ .sx-table .hide-sm{display:none} .tabs{width:100%} .tabs button{flex:1;justify-content:center} .sx-filters input[type=search]{max-width:none} }
 </style>
 </head>
 <body>
@@ -604,37 +605,30 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
     <div class="sx-head">
       <h2>Surclassés</h2>
       <p class="lede" id="sx-lede"></p>
-      <p id="sx-meta"></p>
-    </div>
-    <div class="sx-tiles">
-      <div class="sx-tile t2"><span class="v" id="sx-n2">–</span><span class="k">+2 years · played last weekend</span></div>
-      <div class="sx-tile t1"><span class="v" id="sx-n1">–</span><span class="k">+1 year · played last weekend</span></div>
-      <div class="sx-tile"><span class="v" id="sx-nt">–</span><span class="k">Surclassés this season</span></div>
-      <div class="sx-tile"><span class="v" id="sx-nb">–</span><span class="k">Already in your players</span></div>
     </div>
     <section class="sx-card" aria-label="Surclassés list">
       <div class="sx-filters" id="sx-filters">
-        <span class="seg-ctl" role="group" aria-label="Period"><button type="button" data-f="when" data-v="weekend">Last weekend</button><button type="button" data-f="when" data-v="season">Whole season</button></span>
-        <span class="seg-ctl" role="group" aria-label="Level"><button type="button" data-f="level" data-v="all">All</button><button type="button" data-f="level" data-v="2">+2</button><button type="button" data-f="level" data-v="1">+1</button></span>
-        <span class="seg-ctl" role="group" aria-label="Category"><button type="button" data-f="cat" data-v="all">U18 + U16</button><button type="button" data-f="cat" data-v="U18">U18</button><button type="button" data-f="cat" data-v="U16">U16</button></span>
+        <span class="seg-ctl" role="group" aria-label="Period"><button type="button" data-f="when" data-v="weekend">Last weekend</button><button type="button" data-f="when" data-v="season">Season</button></span>
+        <span class="seg-ctl" role="group" aria-label="Level" id="sx-levels"></span>
+        <select id="sx-cat" aria-label="Category"><option value="all">U18 + U16</option><option value="U18">U18 only</option><option value="U16">U16 only</option></select>
         <select id="sx-club" aria-label="Club"></select>
-        <input id="sx-q" type="search" placeholder="Search a name or club" aria-label="Search">
+        <input id="sx-q" type="search" placeholder="Search" aria-label="Search a name or club">
       </div>
-      <span class="sx-count" id="sx-count"></span>
       <div class="sx-scroll"><table class="sx-table">
         <thead><tr id="sx-thead">
           <th><button type="button" data-sort="name" data-label="Player">Player</button></th>
+          <th class="num"><button type="button" data-sort="age" data-label="Age">Age</button></th>
           <th><button type="button" data-sort="years_ahead" data-label="Level">Level</button></th>
-          <th class="num"><button type="button" data-sort="birth_date" data-label="Born">Born</button></th>
-          <th class="hide-sm">Plays in</th>
           <th class="hide-sm">Last weekend</th>
-          <th class="num"><button type="button" data-sort="matches_up" data-label="Matches up">Matches up</button></th>
-          <th class="num hide-sm"><button type="button" data-sort="last_played" data-label="Last played">Last played</button></th>
+          <th class="num"><button type="button" data-sort="matches_up" data-label="Matches">Matches</button></th>
         </tr></thead>
         <tbody id="sx-body"></tbody>
       </table></div>
     </section>
-    <p class="sx-note">+1 = one year younger than the category, +2 = two years younger. U18 Elite is for players born in 2009 (there is no U17 Elite this season, so U17 players born in 2010 also play there). U16 Elite is for players born in 2011. Line-ups come from the RBFA match sheets and are read every Monday. Birth dates come from public player databases; "est." means the year comes from the player's RBFA squad.</p>
+    <details class="sx-how"><summary>How it works</summary>
+      <p>+1 = one year younger than the category, +2 = two years younger. U18 Elite is for players born in 2009 (there is no U17 Elite this season, so U17 players also play there). U16 Elite is for players born in 2011. Line-ups come from the RBFA match sheets and are read every Monday. "~" means the age comes from the player's RBFA squad, not from a birth date.</p>
+      <p id="sx-meta"></p>
+    </details>
   </div>
 </div>
 
@@ -1627,6 +1621,9 @@ const FOOT = { right: "RF", left: "LF", both: "BOTH" };
 const sxDate = s => s ? new Date(s + "T12:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : "";
 const sxLong = s => s ? new Date(s + "T12:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : "";
 const inBase = p => rows.find(r => String(r.name).toLowerCase() === p.name.toLowerCase());
+// age today: from the birth date, or "~" from the birth year when only the squad is known
+SX.players.forEach(p => { p.age = p.birth_date ? ageOf(p.birth_date) : today.getFullYear() - p.birth_year - 1; });
+const ageTxt = p => p.birth_date ? `${p.age}` : `~${p.age}`;
 
 function sxList(){
   let list = SX.players.filter(p => (sx.when === "season" || p.this_weekend)
@@ -1642,49 +1639,46 @@ function sxRender(){
   const s = SX.status, all = SX.players;
   const wk = all.filter(p => p.this_weekend);
   const wkTxt = sxDate(s.weekend_from) + (s.weekend_to && s.weekend_to !== s.weekend_from ? "–" + sxDate(s.weekend_to) : "");
-  $("sx-lede").textContent = `${wk.length} players played above their age group last weekend (${wkTxt}, ${s.matches_weekend} matches). ${wk.filter(p => p.years_ahead >= 2).length} of them are two years ahead.`;
-  $("sx-meta").textContent = `Season ${s.season} · updated ${sxLong(s.updated)} · ${s.matches_season} matches read in U18 Elite, U18 Elite 2, U16 Elite and U16 Elite 2`;
-  $("sx-n2").textContent = wk.filter(p => p.years_ahead >= 2).length;
-  $("sx-n1").textContent = wk.filter(p => p.years_ahead === 1).length;
-  $("sx-nt").textContent = all.length;
-  $("sx-nb").textContent = all.filter(p => inBase(p)).length;
-  // filters
+  const n2 = wk.filter(p => p.years_ahead >= 2).length;
+  $("sx-lede").textContent = `Last weekend (${wkTxt}): ${wk.length} players played above their age group, ${n2} of them two years ahead.`;
+  $("sx-meta").textContent = `Season ${s.season} · updated ${sxLong(s.updated)} · ${s.matches_season} matches read (U18 Elite, U18 Elite 2, U16 Elite, U16 Elite 2).`;
+  // level filter with counts for the chosen period
+  const base = all.filter(p => sx.when === "season" || p.this_weekend);
+  const cnt = { all: base.length, "2": base.filter(p => p.years_ahead >= 2).length, "1": base.filter(p => p.years_ahead === 1).length };
+  $("sx-levels").innerHTML = [["all", "All"], ["2", "+2"], ["1", "+1"]].map(([v, l]) => `<button type="button" data-f="level" data-v="${v}">${l} <span class="c">${cnt[v]}</span></button>`).join("");
   const clubs = [...new Set(all.map(p => p.club))].sort();
   if ($("sx-club").options.length !== clubs.length + 1) $("sx-club").innerHTML = `<option value="">All clubs</option>` + clubs.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
   $("sx-club").value = sx.club; $("sx-club").classList.toggle("on", !!sx.club);
+  $("sx-cat").value = sx.cat; $("sx-cat").classList.toggle("on", sx.cat !== "all");
   document.querySelectorAll("#sx-filters [data-f]").forEach(b => b.setAttribute("aria-pressed", String(sx[b.dataset.f] === b.dataset.v)));
   const list = sxList();
-  $("sx-count").textContent = `${list.length} player${list.length === 1 ? "" : "s"}${sx.when === "weekend" ? " who played last weekend" : " this season"}`;
   document.querySelectorAll("#sx-thead [data-sort]").forEach(b => { const on = b.dataset.sort === sx.sort; b.textContent = b.dataset.label + (on ? (sx.dir > 0 ? " ↑" : " ↓") : ""); });
-  const cols = 7;
+  const cols = 5;
   $("sx-body").innerHTML = list.length ? list.map(p => {
-    const lv = `<span class="lvl ${p.years_ahead >= 2 ? "l2" : "l1"}">${esc(p.level)}</span>`;
-    const born = p.birth_date ? `${esc(fmtDate(p.birth_date))}` : `<span class="est">${p.birth_year} est.</span>`;
+    const lv = `<span class="lvl ${p.years_ahead >= 2 ? "l2" : "l1"}">${esc(p.level)}</span> <span class="cat">${esc(p.category)}</span>`;
     const base = inBase(p);
     const row = `<tr class="sx-row" data-sx="${esc(p.id)}" tabindex="0" aria-expanded="${sx.open === p.id}">
-      <td><span class="tcell"><span class="av s24" aria-hidden="true">${esc(initials(p.name))}</span><span class="nm"><span class="nm1"><span class="tname">${esc(p.name)}</span>${p.new_this_week ? `<span class="sx-new">New</span>` : ""}${base ? `<span class="sx-in">In your players</span>` : ""}</span><span class="sub">${esc([p.club, p.goalkeeper ? "GK" : TM_POS[p.position] || p.position].filter(Boolean).join(" · "))}</span></span></span></td>
-      <td>${lv}<span class="sub2">${esc(p.category)}</span></td>
-      <td class="num">${born}<span class="sub2">${esc(p.birth_source)}</span></td>
-      <td class="dim hide-sm">${esc(p.up_series)}</td>
-      <td class="hide-sm">${p.weekend_match ? `${esc(p.weekend_match)}<span class="sub2">${esc(p.weekend_role)}</span>` : `<span class="sub2">Did not play</span>`}</td>
-      <td class="num">${p.matches_up}<span class="sub2">${p.starts_up} starts</span></td>
-      <td class="dim num hide-sm">${esc(sxDate(p.last_played))}</td></tr>`;
+      <td><span class="nm1"><span class="tname">${esc(p.name)}</span>${p.new_this_week ? `<span class="sx-new">New</span>` : ""}${base ? `<span class="sx-in" title="Already in your players">✓</span>` : ""}</span><span class="sub2">${esc(p.club)}</span></td>
+      <td class="num"><span class="age ${p.birth_date ? "" : "est"}">${ageTxt(p)}</span><span class="sub2">${p.birth_date ? esc(fmtDate(p.birth_date)) : p.birth_year}</span></td>
+      <td>${lv}</td>
+      <td class="hide-sm dim">${p.weekend_match ? esc(p.weekend_match.replace(/^U1[68] Elite( 2)? /, "")) : "—"}</td>
+      <td class="num">${p.matches_up}</td></tr>`;
     if (sx.open !== p.id) return row;
     const ms = (SX.apps[p.id] || []).slice().sort((a, b) => b[0].localeCompare(a[0]));
     const role = { S: "Started", C: "Came on", B: "Bench" };
     return row + `<tr class="sx-det"><td colspan="${cols}"><div class="sx-detail">
-      <div class="sx-dh"><div><b>${esc(p.name)}</b> · ${esc(p.club)} · born ${p.birth_date ? esc(sxLong(p.birth_date)) : p.birth_year + " (estimated from his RBFA squad)"} · ${p.matches_up} matches up, ${p.matches_all} in total</div>
+      <div class="sx-dh"><div><b>${esc(p.name)}</b> · ${esc(p.club)} · ${p.birth_date ? `${p.age} years (born ${esc(sxLong(p.birth_date))})` : `about ${p.age} years (born ${p.birth_year}, from his RBFA squad)`} · ${p.goalkeeper ? "GK" : esc(TM_POS[p.position] || p.position || "")}<br><span class="sub2">${p.matches_up} matches in ${esc(p.up_series)} (${p.starts_up} starts) · ${p.matches_all} matches in total</span></div>
         ${base ? `<button class="btn sm" type="button" data-sx-open="${esc(base.url)}">Open his sheet</button>` : `<button class="btn sm primary" type="button" data-sx-add="${esc(p.id)}">＋ Add to my players</button>`}</div>
       <div class="sx-ms">${ms.map(m => `<div class="sx-m ${m[6] ? "up" : ""}"><span class="d">${esc(sxDate(m[0]))}</span><span class="s">${esc(m[1])}</span><span class="o">${m[3] === "H" ? "vs" : "at"} ${esc(m[2])}</span><span class="sc num">${esc(m[4])}</span><span class="r">${role[m[5]] || ""}</span></div>`).join("")}</div>
-      <div class="sub2">Orange line = match in the higher category.</div>
     </div></td></tr>`;
   }).join("") : `<tr><td colspan="${cols}" class="empty" style="white-space:normal">${sx.when === "weekend" ? "No player matches these filters last weekend. Try “Whole season”." : "No player matches these filters."}</td></tr>`;
 }
 $("sx-filters").addEventListener("click", e => { const b = e.target.closest("[data-f]"); if (!b) return; sx[b.dataset.f] = b.dataset.v; sx.open = null; sxRender(); });
 $("sx-club").addEventListener("change", () => { sx.club = $("sx-club").value; sxRender(); });
+$("sx-cat").addEventListener("change", () => { sx.cat = $("sx-cat").value; sxRender(); });
 $("sx-q").addEventListener("input", () => { sx.q = $("sx-q").value.trim().toLowerCase(); sxRender(); });
 $("sx-thead").addEventListener("click", e => { const b = e.target.closest("[data-sort]"); if (!b) return; const k = b.dataset.sort;
-  if (sx.sort === k) sx.dir *= -1; else { sx.sort = k; sx.dir = (k === "name" || k === "birth_date") ? 1 : -1; } sxRender(); });
+  if (sx.sort === k) sx.dir *= -1; else { sx.sort = k; sx.dir = (k === "name" || k === "age") ? 1 : -1; } sxRender(); });
 const sxToggle = tr => { const id = tr.dataset.sx; sx.open = sx.open === id ? null : id; sxRender(); };
 $("sx-body").addEventListener("click", async e => {
   const op = e.target.closest("[data-sx-open]"); if (op) { const r = rows.find(x => x.url === op.dataset.sxOpen); r && openPlayer(r); return; }
