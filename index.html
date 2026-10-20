@@ -589,7 +589,7 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 .mt-side li:last-child{border-bottom:0}
 .mt-side .num{grid-area:n;color:var(--faint);text-align:right;font-variant-numeric:tabular-nums}
 .mt-side .pn{grid-area:p;min-width:0}
-.mt-side .pa{grid-area:a;color:var(--muted);font-size:12px;white-space:nowrap}
+.mt-side .p-age{grid-area:a;color:var(--muted);font-size:12px;white-space:nowrap}
 .mt-side .pe{grid-area:e;display:flex;flex-wrap:wrap;gap:2px 10px}
 .mt-side .pe:empty{display:none}
 .mt-side .bench li{color:var(--muted)}
@@ -1862,7 +1862,7 @@ function mtPlayer(p){
   const [side, pid, name, num, cap, gk, evs, age, level] = p;
   const ev = (evs || "").split(",").filter(Boolean).map(s => { const [k, mn] = s.split(":"); return `<span class="pev">${MT_ICON[k] || ""}${mn && mn !== "null" ? `<span class="mn">${esc(mn)}'</span>` : ""}</span>`; }).join("");
   const sxp = level ? SX.players.find(x => x.id === pid) : null;
-  return `<li class="${sxp ? "is-sx" : ""}"><span class="num">${esc(num || "")}</span><span class="pn">${sxp ? `<button type="button" class="pl-link" data-sxp="${esc(pid)}">${esc(name)}</button>` : esc(name)}${cap ? ' <span class="tag">C</span>' : ""}${gk ? ' <span class="tag">GK</span>' : ""}${sxp ? ` <span class="lvl ${sxp.years_ahead >= 2 ? "l2" : "l1"}">${esc(level)}</span>` : ""}</span><span class="pa">${age != null ? age + " ans" : ""}</span><span class="pe">${ev}</span></li>`;
+  return `<li class="${sxp ? "is-sx" : ""}"><span class="num">${esc(num || "")}</span><span class="pn">${sxp ? `<button type="button" class="pl-link" data-sxp="${esc(pid)}">${esc(name)}</button>` : esc(name)}${cap ? ' <span class="tag">C</span>' : ""}${gk ? ' <span class="tag">GK</span>' : ""}${sxp ? ` <span class="lvl ${sxp.years_ahead >= 2 ? "l2" : "l1"}">${esc(level)}</span>` : ""}</span><span class="p-age">${age != null ? age + " ans" : ""}</span><span class="pe">${ev}</span></li>`;
 }
 function mtSide(m, s){
   const st = m.st.filter(p => p[0] === s), sb = m.sb.filter(p => p[0] === s);
