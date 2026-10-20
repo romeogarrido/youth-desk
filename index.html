@@ -443,8 +443,8 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 
 /* ---- demo additions: accounts, tabs, Surclassés tracker ---- */
 .demo-tag{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--orange);border:1px solid currentColor;border-radius:5px;padding:1px 6px;align-self:center}
-.who{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 12px 3px 3px;cursor:pointer;color:var(--fg)}
-.who:hover{background:var(--hover)}
+.me-btn{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 12px 3px 3px;cursor:pointer;color:var(--fg)}
+.me-btn:hover{background:var(--hover)}
 .who-t{display:flex;flex-direction:column;line-height:1.15;font-size:13px;font-weight:600;text-align:left}
 .who-t small{font-size:11px;font-weight:400;color:var(--muted)}
 .tabbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
@@ -514,8 +514,8 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
   .demo-tag{display:none}
   #weekline::before{content:"Démo · ";color:var(--orange);font-weight:600}
   #reset-demo{display:none}
-  .who{padding:2px;gap:0;border-radius:50%}
-  .who .who-t{display:none}
+  .me-btn{padding:2px;gap:0;border-radius:50%}
+  .me-btn .who-t{display:none}
   .brand h1{font-size:26px}
 }
 .login .reset-link{background:none;border:0;color:var(--blue);font:inherit;font-size:12px;padding:0;margin-top:8px;cursor:pointer;text-align:left}
@@ -706,7 +706,7 @@ body.is-agency .scope-bar.agency-only{display:flex!important}
         <button class="btn" id="refresh" type="button" aria-label="Actualiser"><span class="ico" aria-hidden="true">↻</span><span class="lbl">Actualiser</span></button>
         <button class="btn icon" id="theme-toggle" type="button" aria-label="Passer en mode clair" title="Mode clair / sombre">☀︎</button>
         <button class="btn" id="reset-demo" type="button" title="Remettre les données d'exemple">Réinitialiser</button>
-        <button class="who" id="who" type="button"></button>
+        <button class="me-btn" id="who" type="button"></button>
       </span>
     </div>
   </header>
