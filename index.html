@@ -508,6 +508,17 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 .sx-m .sc{grid-area:sc;text-align:right} .sx-m .r{grid-area:r;color:var(--muted);text-align:right}
 .sx-note{font-size:12px;color:var(--faint);margin:0;max-width:90ch}
 @media (max-width:640px){ .sx-table .hide-sm{display:none} .tabs{width:100%} .tabs button{flex:1;justify-content:center} }
+
+/* phone header: title + small icons on one line, account as an avatar, reset moves to the account screen */
+@media (max-width:560px){
+  .demo-tag{display:none}
+  #weekline::before{content:"Démo · ";color:var(--orange);font-weight:600}
+  #reset-demo{display:none}
+  .who{padding:2px;gap:0;border-radius:50%}
+  .who .who-t{display:none}
+  .brand h1{font-size:26px}
+}
+.login .reset-link{background:none;border:0;color:var(--blue);font:inherit;font-size:12px;padding:0;margin-top:8px;cursor:pointer;text-align:left}
 </style>
 </head>
 <body>
@@ -648,6 +659,7 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
     <div class="acct-grp"><h3>Scout indépendant · base privée</h3><div class="acct-grp" id="acct-solo"></div></div>
     <div class="err" id="login-err"></div>
     <p class="fine">Les joueurs de cette démo sont inventés. Vos modifications restent uniquement dans ce navigateur.</p>
+    <button type="button" class="reset-link" id="reset-demo-2">Réinitialiser la démo (remettre les exemples)</button>
   </form>
 </div>
 
@@ -1618,6 +1630,7 @@ $("login").addEventListener("click", e => {
   $("login").hidden = true; closeSheet(); rows = []; setWho(); load(true); if (typeof sxRender === "function") sxRender();
 });
 $("who").onclick = () => showLogin();
+$("reset-demo-2").onclick = () => { resetDemo(); $("login-err").textContent = "Données de démo réinitialisées."; };
 $("reset-demo").onclick = () => { resetDemo(); closeSheet(); rows = []; load(true); toast("Données de démo réinitialisées"); if (typeof sxRender === "function") sxRender(); };
 
 /* ================= Surclassés tracker ================= */
