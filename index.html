@@ -650,6 +650,15 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 .sx-table td.dim,.sx-table .dim{color:var(--muted)}
 @media (max-width:1000px){ .sx-table .hide-md{display:none} .sx-table .m-club{display:inline-flex} .sx-table .m-club .clogo{margin:0} }
 @media (max-width:640px){ .sx-table .c-name{max-width:170px} .sx-table .c-name .av{display:none} .sx-table .c-m .dim{display:none} }
+@media (max-width:640px){
+  .sx-scroll{margin:0 -14px;padding:0 10px 0 14px}
+  .sx-table td,.sx-table th{padding-right:8px}
+  .sx-table td:last-child,.sx-table th:last-child{padding-right:0}
+  .sx-table .c-name{max-width:none;width:100%;gap:6px}
+  .sx-table .c-name .tname{max-width:118px}
+  .sx-table th:first-child{width:100%}
+  .sx-table .lvl{padding:1px 6px}
+}
 </style>
 </head>
 <body>
