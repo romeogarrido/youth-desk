@@ -662,6 +662,24 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 
 .sx-table .c-birth{padding-right:28px}
 .sx-table th.c-we,.sx-table td.c-we{padding-left:4px}
+
+.agency-only{display:none!important}
+body.is-agency .agency-only{display:revert!important}
+body.is-agency .scope-bar.agency-only{display:flex!important}
+.scope-bar{align-items:center;gap:8px;flex-wrap:wrap}
+.scope-bar select{background:var(--raised);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px}
+.card .top-r{display:inline-flex;align-items:center;gap:6px;flex:none}
+.as-chip{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:20px;padding:0 5px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.02em;background:var(--raised);color:var(--muted);border:1px solid var(--line);vertical-align:middle;margin-left:6px}
+.as-chip.me{background:var(--blue);border-color:var(--blue);color:#fff}
+.card .acts select{max-width:110px}
+.r-ini{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:18px;padding:0 4px;border-radius:999px;font-size:10px;font-weight:700;background:var(--raised);color:var(--fg);border:1px solid var(--line);margin-left:auto;vertical-align:middle}
+.ritem .m{display:flex;align-items:center;gap:6px}
+.login .lf{display:block;text-align:left;font-size:12px;color:var(--muted);margin:0 0 -8px}
+.login{overflow:auto}
+.login form{margin:auto}
+.login input[type=email]{width:100%}
+.demo-accts{text-align:left;margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+.demo-accts summary{cursor:pointer;font-size:12px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -708,6 +726,7 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
         <option value="Live">Live (au stade)</option>
         <option value="Follow">À revoir</option>
       </select></div>
+    <div class="field agency-only"><label for="add-who">Pour</label><select id="add-who"></select></div>
     <div class="field"><label for="add-date">Date prévue</label>
       <input id="add-date" type="date"></div>
     <button class="btn primary" id="add-btn" type="submit">Ajouter à une liste</button>
@@ -727,6 +746,7 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
     <div class="find-list" id="find-list" role="listbox" hidden></div>
   </div>
 
+  <div class="scope-bar agency-only"><span class="seg-ctl" role="group" aria-label="Tâches affichées" id="scope"><button type="button" data-scope="mine">Mes tâches</button><button type="button" data-scope="all">Toute l'agence</button></span><select id="scope-who" aria-label="Scout"></select></div>
   <section class="board" id="lanes" aria-label="Listes de travail"></section>
 
   <section class="reg" aria-label="Joueurs">
@@ -810,12 +830,17 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 </div>
 
 <div class="login" id="login" hidden>
-  <form id="login-form" autocomplete="off" onsubmit="return false">
+  <form id="login-form" autocomplete="on">
     <h1>Youth Desk</h1>
-    <p>Démo · choisissez un compte. Dans la vraie version, chaque scout se connecte avec son propre e-mail et son mot de passe.</p>
-    <div class="acct-grp"><h3>Agence · North Star Scouting · 3 scouts, une base partagée</h3><div class="acct-grp" id="acct-agency"></div></div>
-    <div class="acct-grp"><h3>Scout indépendant · base privée</h3><div class="acct-grp" id="acct-solo"></div></div>
+    <p>Connectez-vous avec votre e-mail et votre mot de passe.</p>
+    <label class="lf" for="login-email">E-mail</label><input id="login-email" type="email" autocomplete="username" placeholder="prenom@agence.be" required>
+    <label class="lf" for="login-pw">Mot de passe</label><input id="login-pw" type="password" autocomplete="current-password" placeholder="Mot de passe" required>
     <div class="err" id="login-err"></div>
+    <button class="btn primary" type="submit" style="justify-content:center;padding:10px">Se connecter</button>
+    <details class="demo-accts" open><summary>Comptes de démo · mot de passe : <b>demo</b></summary>
+      <div class="acct-grp"><h3>Agence · North Star Scouting · 3 scouts, une base partagée</h3><div class="acct-grp" id="acct-agency"></div></div>
+      <div class="acct-grp"><h3>Scout indépendant · base privée</h3><div class="acct-grp" id="acct-solo"></div></div>
+    </details>
     <p class="fine">Les joueurs de cette démo sont inventés. Vos modifications restent uniquement dans ce navigateur.</p>
     <button type="button" class="reset-link" id="reset-demo-2">Réinitialiser la démo (remettre les exemples)</button>
   </form>
@@ -841,6 +866,7 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
         <option value="Up to date">Aucune liste</option><option value="Video">Rapport vidéo</option><option value="Live">Live (au stade)</option><option value="Follow">À revoir</option>
       </select></div>
       <div class="field"><label for="np-due">Date prévue</label><input id="np-due" type="date"></div>
+      <div class="field agency-only"><label for="np-who">Pour</label><select id="np-who"></select></div>
     </div>
     <div class="msg" id="np-msg">Le joueur est ajouté à vos joueurs, prêt pour un premier SOF ou une NOTE.</div>
     <div class="acts"><button class="btn" type="button" id="np-cancel">Annuler</button><button class="btn primary" type="submit" id="np-save">Créer le joueur</button></div>
@@ -944,17 +970,17 @@ async function load(fresh){
 }
 
 /* write */
-async function setTodo(row, todo, date){
-  const body = {todo}; if (date) body.due = date;
-  await api("players?id=" + pageId(row.url), "PATCH", body);
-  row.todo = todo; if (date) row.due = date;
+async function setTodo(row, todo, date, who){
+  const body = {todo}; if (date) body.due = date; if (who !== undefined) body.assignee = who;
+  const j = await api("players?id=" + pageId(row.url), "PATCH", body);
+  row.todo = todo; if (date) row.due = date; row.assignee = j.assignee;
 }
-async function change(row, todo, date, msg){
-  const prev = {todo: row.todo, due: row.due};
+async function change(row, todo, date, msg, who){
+  const prev = {todo: row.todo, due: row.due, who: row.assignee || null};
   try {
-    await setTodo(row, todo, date);
+    await setTodo(row, todo, date, who);
     render();
-    toast(msg, async () => { try { await setTodo(row, prev.todo, prev.due); render(); toast("Annulé"); } catch(e){ writeError(e); } });
+    toast(msg, async () => { try { await setTodo(row, prev.todo, prev.due, prev.who); render(); toast("Annulé"); } catch(e){ writeError(e); } });
   } catch(err) { writeError(err); }
 }
 function writeError(err){
@@ -987,11 +1013,12 @@ function cardHTML(r, lane){
   const moveOpts = TODO_OPTS.filter(o => o !== r.todo && o !== "Up to date").map(o => `<option value="${esc(o)}">${esc(TODO_LABEL[o])}</option>`).join("");
   const tag = lane.values.length > 1 ? `<span class="tag">${esc(TODO_LABEL[r.todo] || r.todo)} · </span>` : "";
   return `<article class="card" data-id="${esc(r.url)}">
-    <div class="top"><span class="who2">${avatar(r, 28)}<button type="button" class="name" data-open="${esc(r.url)}">${esc(r.name)}</button></span>${dueHTML(r.due)}</div>
+    <div class="top"><span class="who2">${avatar(r, 28)}<button type="button" class="name" data-open="${esc(r.url)}">${esc(r.name)}</button></span><span class="top-r">${dueHTML(r.due)}${assigneeChip(r)}</span></div>
     <div class="line">${meta}</div>
     <div class="row2">
       <span class="counts">${tag}SOF ${r.sofs ?? 0} · NOTE ${r.notes ?? 0}</span>
       <span class="acts">
+        ${isAgency() ? `<select aria-label="Assigner ${esc(r.name)}" data-act="assign" class="agency-only"><option value="">Assigner</option>${team().filter(a => a.id !== r.assignee).map(a => `<option value="${a.id}">${esc(a.short)}</option>`).join("")}</select>` : ""}
         <select aria-label="Déplacer ${esc(r.name)}" data-act="move"><option value="">Déplacer</option>${moveOpts}</select>
         <button class="btn sm primary" type="button" data-act="done">Fait</button>
       </span>
@@ -999,13 +1026,26 @@ function cardHTML(r, lane){
   </article>`;
 }
 function sortDue(a,b){ const x=a.due||"9999", y=b.due||"9999"; return x<y?-1:x>y?1:String(a.name).localeCompare(b.name); }
+const deskScope = { mine: false, who: "" };
+function inScope(r){ if (!isAgency()) return true; if (deskScope.mine) return r.assignee === me().id; if (deskScope.who) return r.assignee === deskScope.who; return true; }
+function assigneeChip(r){ if (!isAgency() || !r.assignee) return ""; const a = userById(r.assignee); if (!a) return "";
+  return `<span class="as-chip ${a.id === me().id ? "me" : ""}" title="Assigné à ${esc(a.name)}">${esc(initials(a.name))}</span>`; }
+function renderScope(){
+  if (!isAgency()) return;
+  document.querySelectorAll("#scope [data-scope]").forEach(b => b.setAttribute("aria-pressed", String((b.dataset.scope === "mine") === deskScope.mine)));
+  const sel = $("scope-who"); sel.hidden = deskScope.mine;
+  sel.innerHTML = `<option value="">Tous les scouts</option>` + team().map(a => `<option value="${a.id}">${esc(a.name)}</option>`).join(""); sel.value = deskScope.who;
+  const opts = team().map(a => `<option value="${a.id}">${esc(a.name)}${a.id === me().id ? " (moi)" : ""}</option>`).join("");
+  for (const id of ["add-who", "np-who"]) { const el = $(id); const v = el.value; el.innerHTML = opts; el.value = v && team().some(a => a.id === v) ? v : me().id; }
+}
 function render(){
+  renderScope();
   $("lanes").innerHTML = LANES.map(l => {
-    const list = rows.filter(r => l.values.includes(r.todo)).sort(sortDue);
+    const list = rows.filter(r => l.values.includes(r.todo) && inScope(r)).sort(sortDue);
     const late = list.filter(r => r.due && r.due.slice(0,10) < TODAY).length;
     const body = (!rows.length && loading) ? `<div class="skel"></div><div class="skel"></div><div class="skel"></div>`
       : list.length ? list.map(r => cardHTML(r,l)).join("")
-      : `<div class="empty">${rows.length ? "Rien à faire ici." : "Vos joueurs apparaissent ici une fois chargés."}</div>`;
+      : `<div class="empty">${rows.length ? (isAgency() && deskScope.mine ? "Aucune tâche pour vous ici." : "Rien à faire ici.") : "Vos joueurs apparaissent ici une fois chargés."}</div>`;
     return `<div class="lane ${l.cls}">
       <div class="lane-h"><span class="t"><span class="ldot"></span><h2>${l.label}</h2></span><span class="count num">${rows.length ? list.length : ""}</span></div>
       <div class="lane-sub">${l.sub}${late ? ` · <span style="color:var(--red)">${late} en retard</span>` : ""}</div>
@@ -1013,7 +1053,7 @@ function render(){
     </div>`;
   }).join("");
 
-  const open = rows.filter(r => laneOf(r.todo));
+  const open = rows.filter(r => laneOf(r.todo) && inScope(r));
   const has = rows.length > 0;
   const cnt = k => open.filter(r => LANES.find(l => l.key === k).values.includes(r.todo)).length;
   $("n-video").textContent = has ? cnt("video") : "–";
@@ -1035,7 +1075,12 @@ $("lanes").addEventListener("click", e => {
   b.disabled = true;
   change(r, "Up to date", null, `${r.name} est à jour`);
 });
+document.getElementById("scope").addEventListener("click", e => { const b = e.target.closest("[data-scope]"); if (!b) return; deskScope.mine = b.dataset.scope === "mine"; deskScope.who = ""; render(); });
+document.getElementById("scope-who").addEventListener("change", e => { deskScope.who = e.target.value; render(); });
 $("lanes").addEventListener("change", e => {
+  const a = e.target.closest("[data-act='assign']");
+  if (a && a.value) { const r = rows.find(x => x.url === a.closest(".card").dataset.id); if (!r) return; a.disabled = true; const who = userById(a.value);
+    change(r, r.todo, null, `${r.name} assigné à ${who.short}`, a.value); return; }
   const s = e.target.closest("[data-act='move']"); if (!s || !s.value) return;
   const r = rows.find(x => x.url === s.closest(".card").dataset.id); if (!r) return;
   s.disabled = true;
@@ -1059,8 +1104,9 @@ $("addform").addEventListener("submit", async e => {
   const r = findPlayer($("add-player").value);
   if (!r) { $("addmsg").classList.remove("hint"); $("addmsg").textContent = "Aucun joueur à ce nom. Choisissez-en un dans les suggestions, ou créez-le avec ＋ Nouveau joueur."; return; }
   const todo = $("add-list").value, date = $("add-date").value || null;
+  const who = isAgency() ? $("add-who").value : undefined;
   $("add-btn").disabled = true;
-  await change(r, todo, date, `${r.name} ajouté à ${TODO_LABEL[todo]}`);
+  await change(r, todo, date, `${r.name} ajouté à ${TODO_LABEL[todo]}` + (who && who !== me().id ? ` pour ${userById(who).short}` : ""), who);
   $("add-btn").disabled = false; $("add-player").value = "";
   $("addmsg").textContent = "Pas encore dans vos joueurs ? Utilisez ＋ Nouveau joueur."; $("addmsg").classList.add("hint");
 });
@@ -1104,7 +1150,7 @@ function renderTable(){
       <td>${esc(r.status||"")}</td>
       <td class="dim">${esc(r.ownerName || "")}</td>
       <td class="num">${r.sofs ?? 0}</td><td class="num">${r.notes ?? 0}</td>
-      <td>${todoTxt}</td><td class="dim num">${fmtDate(r.due)}</td><td class="dim num">${fmtDate(r.edited)}</td>
+      <td>${todoTxt}${r.todo && r.todo !== "Up to date" ? assigneeChip(r) : ""}</td><td class="dim num">${fmtDate(r.due)}</td><td class="dim num">${fmtDate(r.edited)}</td>
       <td><button class="btn ghost sm" type="button" data-add="${esc(r.url)}">Ajouter à une liste</button></td>
     </tr>`;
   }).join("") || `<tr><td colspan="${TCOLS.length}" class="empty">Aucun joueur ne correspond à ces filtres.</td></tr>`;
@@ -1428,7 +1474,7 @@ function profileHTML(){
       <details class="pdet"><summary><span>Détail par catégorie</span><span class="cnt">${d.axes.length}</span></summary>
       <table class="ptable">${d.axes.map((a, i) => `<tr><td>${esc(a.name)}</td><td class="c">${a.n} SOF</td><td class="n">${a.avg.toFixed(1)}${showLast && d.lastVals[i] != null ? ` <span style="color:var(--orange)">· ${d.lastVals[i]}</span>` : ""}</td></tr>`).join("")}</table></details>
     </div>` : `<div class="grp"><h3>Profil</h3><div class="sheet-empty" style="padding:16px">Le radar a besoin d'au moins un SOF avec des notes par catégorie. Les NOTE n'ont pas de notes.</div></div>`}
-    ${L ? `<div class="grp"><h3>Dernier rapport · ${esc(d.latest.x.name)}</h3>
+    ${L ? `<div class="grp"><h3>Dernier rapport · ${esc(d.latest.x.name)}${d.latest.x.author ? ` <span class="r-ini" title="Rédigé par ${esc(d.latest.x.author)}">${esc(initials(d.latest.x.author))}</span>` : ""}</h3>
       <div class="sa"><div><span class="h"><span class="pdot" style="background:var(--green)"></span>Points forts</span><ul>${li(L.strengths)}</ul></div>
       <div><span class="h"><span class="pdot" style="background:var(--orange)"></span>Points à travailler</span><ul>${li(L.areas)}</ul></div></div>
     </div>` : ""}
@@ -1451,7 +1497,7 @@ function renderSheet(){
   else if (!P.reports.length) lh += `<div class="sheet-empty">Pas encore de rapport.</div>`;
   else lh += `<button class="ritem prof-item" type="button" data-profile aria-current="${P.edState === "empty"}"><span class="t">◎ Profil du joueur</span><span class="m">Radar et résumé</span></button>` + P.reports.map(x => `<button class="ritem" type="button" data-rep="${esc(x.url)}" aria-current="${P.sel === x.url}">
       <span class="t">${esc(x.name)}</span>
-      <span class="m"><span class="kind ${esc(x.type)}">${esc(x.type || "—")}</span>${x.pot ? `<span>${esc(x.pot)}</span>` : ""}${x.author ? `<span class="rauthor">${esc(x.author.split(" ")[0])}</span>` : ""}${x.tags === "In progress" ? `<span class="draftflag">Brouillon</span>` : ""}</span>
+      <span class="m"><span class="kind ${esc(x.type)}">${esc(x.type || "—")}</span>${x.pot ? `<span>${esc(x.pot)}</span>` : ""}${x.author ? `<span class="r-ini" title="Rédigé par ${esc(x.author)}">${esc(initials(x.author))}</span>` : ""}${x.tags === "In progress" ? `<span class="draftflag">Brouillon</span>` : ""}</span>
     </button>`).join("");
   $("rlist").innerHTML = lh;
   // editor
@@ -1611,7 +1657,7 @@ $("np-name").addEventListener("input", () => {
 $("np-form").addEventListener("submit", async e => {
   e.preventDefault();
   const body = { name: $("np-name").value.trim(), club: $("np-club").value.trim(), pos: $("np-pos").value, birth: $("np-birth").value || null,
-    foot: $("np-foot").value, status: $("np-status").value, todo: $("np-todo").value, due: $("np-due").value || null };
+    foot: $("np-foot").value, status: $("np-status").value, todo: $("np-todo").value, due: $("np-due").value || null, assignee: isAgency() ? $("np-who").value : null };
   if (!body.name) return;
   if (body.todo !== "Up to date" && !body.due) body.due = TODAY;
   $("np-save").disabled = true; $("np-save").textContent = "Création…";
@@ -1643,16 +1689,16 @@ applyTheme(document.documentElement.dataset.theme === "light" ? "light" : "dark"
 $("theme-toggle").onclick = () => applyTheme(document.documentElement.dataset.theme === "light" ? "dark" : "light");
 
 /* ================= demo backend: agencies, scouts, players, reports (kept in this browser) ================= */
-const STORE_KEY = "youthdesk:demo:v3", SESSION_KEY = "youthdesk:session:v1";
+const STORE_KEY = "youthdesk:demo:v4", SESSION_KEY = "youthdesk:session:v1";
 const WORKSPACES = {
   agency: { name: "North Star Scouting", kind: "Agence" },
   solo:   { name: "Lucas Dubois", kind: "Scout indépendant" }
 };
 const ACCOUNTS = [
-  { id: "u-sarah", ws: "agency", name: "Sarah Peeters", short: "Sarah", role: "Chef scout · admin" },
-  { id: "u-tom",   ws: "agency", name: "Tom Janssens",  short: "Tom",   role: "Scout · Flandre" },
-  { id: "u-yanis", ws: "agency", name: "Yanis El Amrani", short: "Yanis", role: "Scout · Bruxelles & Wallonie" },
-  { id: "u-lucas", ws: "solo",   name: "Lucas Dubois",  short: "Lucas", role: "Scout indépendant" }
+  { id: "u-sarah", ws: "agency", name: "Sarah Peeters", short: "Sarah", role: "Chef scout · admin", email: "sarah@northstar.be", admin: true },
+  { id: "u-tom",   ws: "agency", name: "Tom Janssens",  short: "Tom",   role: "Scout · Flandre", email: "tom@northstar.be" },
+  { id: "u-yanis", ws: "agency", name: "Yanis El Amrani", short: "Yanis", role: "Scout · Bruxelles & Wallonie", email: "yanis@northstar.be" },
+  { id: "u-lucas", ws: "solo",   name: "Lucas Dubois",  short: "Lucas", role: "Scout indépendant", email: "lucas@scout.be" }
 ];
 let SESSION = null;
 try { SESSION = JSON.parse(localStorage.getItem(SESSION_KEY) || "null"); } catch(e) {}
@@ -1677,7 +1723,8 @@ function seedDB(){
   const addP = (ws, owner, p) => {
     const id = hex32(); const acc = ACCOUNTS.find(a => a.id === owner);
     db.ws[ws].players[id] = Object.assign({ url: "demo://player/" + id, id, photo: null, emoji: null, squad: null, sofs: 0, notes: 0,
-      todo: "Up to date", due: null, status: "À suivre", owner, ownerName: acc.short, edited: new Date(Date.now() - 864e5 * 3).toISOString(), sx: "" }, p);
+      todo: "Up to date", due: null, status: "À suivre", owner, ownerName: acc.short, assignee: null, edited: new Date(Date.now() - 864e5 * 3).toISOString(), sx: "" }, p);
+    if (db.ws[ws].players[id].todo !== "Up to date" && !db.ws[ws].players[id].assignee) db.ws[ws].players[id].assignee = owner;
     db.ws[ws].reports[id] = [];
     return id;
   };
@@ -1694,7 +1741,7 @@ function seedDB(){
   const cats = (g, vals, comments) => TEMPLATES[g].map((n, i) => ({ name: n, rating: vals[i] || 2, comment: (comments && comments[i]) || "" }));
 
   // agency: four example players (invented names)
-  const noah = addP("agency", "u-sarah", { name: "Noah Vermeulen", club: "Club Brugge", pos: "CM (8)", foot: "Droit", birth: "2010-03-14", status: "Suivi rapproché", todo: "Live", due: nextDow(6) });
+  const noah = addP("agency", "u-sarah", { name: "Noah Vermeulen", club: "Club Brugge", pos: "CM (8)", foot: "Droit", birth: "2010-03-14", status: "Suivi rapproché", todo: "Live", assignee: "u-tom", due: nextDow(6) });
   addR("agency", noah, "u-sarah", 9, { type: "SOF", match: "Club Brugge U18 2-1 Genk U18", comp: "U18 Elite", pos: "CM (8)", potA: "3", potB: "4",
     strengths: "Reçoit orienté\nPasse vers l'avant sous pression\nPrend l'info avant de recevoir",
     areas: "Duels aériens\nPlacement défensif en transition",
@@ -1702,19 +1749,19 @@ function seedDB(){
     cats: cats("CM", [3, 3, 4, 2, 3, 2, 2, 2, 2, 3, 2, 1], ["Casse la première ligne de pressing en une touche.", "Bons renversements vers le côté opposé."]) });
   addR("agency", noah, "u-tom", 2, { type: "NOTE", match: "Club Brugge U18 1-3 Gent U18", comp: "U18 Elite",
     strengths: "Rythme de la relance\nPremière touche", areas: "Baisse physique après 60 minutes", opinion: "Deuxième match qui confirme le premier rapport. 70 minutes jouées, meilleur joueur de Bruges en première mi-temps." });
-  const ilias = addP("agency", "u-yanis", { name: "Ilias Benali", club: "Anderlecht", pos: "LW (11A)", foot: "Droit", birth: "2011-07-02", status: "À suivre", todo: "Video", due: dayOffset(3), sx: "+1 · U18 Elite" });
+  const ilias = addP("agency", "u-yanis", { name: "Ilias Benali", club: "Anderlecht", pos: "LW (11A)", foot: "Droit", birth: "2011-07-02", status: "À suivre", todo: "Video", assignee: "u-yanis", due: dayOffset(3), sx: "+1 · U18 Elite" });
   addR("agency", ilias, "u-yanis", 16, { type: "SOF", match: "Anderlecht U16 4-0 Westerlo U16", comp: "U16 Elite", pos: "LW (11A)", potA: "2.5", potB: "4",
     strengths: "1c1 côté gauche, rentre sur son pied\nAccélération sur 10 mètres\nFinition au second poteau",
     areas: "Dernière passe\nRepli défensif",
     opinion: "Dominant dans sa catégorie : deux buts et toujours dangereux en 1c1.\nLe club le fait déjà s'entraîner avec les U18. Prochaine étape : le voir contre des joueurs plus âgés.",
     cats: cats("W", [4, 3, 3, 2, 2, 2, 3, 2, 2, 2, 1, 1]) });
-  const kiano = addP("agency", "u-tom", { name: "Kiano Mbemba", club: "Standard", pos: "ST (9)", foot: "Gauche", birth: "2009-11-20", status: "À recruter", todo: "Follow", due: dayOffset(-1) });
+  const kiano = addP("agency", "u-tom", { name: "Kiano Mbemba", club: "Standard", pos: "ST (9)", foot: "Gauche", birth: "2009-11-20", status: "À recruter", todo: "Follow", assignee: "u-sarah", due: dayOffset(-1) });
   addR("agency", kiano, "u-yanis", 23, { type: "SOF", match: "Standard U18 1-1 Anderlecht U18", comp: "U18 Elite", pos: "ST (9)", potA: "3", potB: "3.5",
     strengths: "Déplacements dans la surface\nJeu dos au but\nFinition du pied gauche",
     areas: "Intensité du pressing\nPied droit",
     opinion: "Profil d'attaquant complet pour son âge. Toujours entre les centraux, bon timing dans ses appels.\nAgent : pas encore. Contrat avec le Standard jusqu'en 2027.",
     cats: cats("ST", [4, 3, 2, 2, 2, 3, 3, 3, 2, 1, 1]) });
-  addP("agency", "u-sarah", { name: "Arne De Wolf", club: "Genk", pos: "CB (5L)", foot: "Gauche", birth: "2011-01-28", status: "À suivre" });
+  addP("agency", "u-sarah", { name: "Arne De Wolf", club: "Genk", pos: "CB (5L)", foot: "Gauche", birth: "2011-01-28", status: "À suivre", todo: "Video", assignee: "u-tom", due: dayOffset(5) });
 
   // independent scout: his own private base
   const solo = addP("solo", "u-lucas", { name: "Mathis Lambert", club: "Charleroi", pos: "AM (10)", foot: "Droit", birth: "2010-09-05", status: "À suivre", todo: "Live", due: nextDow(6) });
@@ -1736,13 +1783,14 @@ async function api(path, method = "GET", body){
     const id = hex32();
     const p = { url: "demo://player/" + id, id, name: body.name.trim(), club: body.club || null, pos: body.pos || null, foot: body.foot || null, birth: body.birth || null,
       status: body.status || "À suivre", squad: null, sofs: 0, notes: 0, todo: body.todo || "Up to date", due: body.due || null, photo: null, emoji: null,
-      owner: u.id, ownerName: u.short, edited: new Date().toISOString(), sx: body.sx || "" };
+      owner: u.id, ownerName: u.short, assignee: (body.todo && body.todo !== "Up to date") ? (body.assignee || u.id) : null, edited: new Date().toISOString(), sx: body.sx || "" };
     W.players[id] = p; W.reports[id] = []; saveDB();
     return { player: clone(p), hasDb: true, warning: null };
   }
   if (route === "players" && method === "PATCH") {
     const p = W.players[q.get("id")]; if (!p) err("Joueur introuvable.");
-    ["todo", "due", "sofs", "notes"].forEach(k => { if (body[k] !== undefined) p[k] = body[k]; });
+    ["todo", "due", "sofs", "notes", "assignee"].forEach(k => { if (body[k] !== undefined) p[k] = body[k]; });
+    if (body.todo === "Up to date") p.assignee = null; else if (body.todo && !p.assignee) p.assignee = u.id;
     p.edited = new Date().toISOString(); saveDB(); return clone(p);
   }
   if (route === "reports") {
@@ -1771,24 +1819,37 @@ async function api(path, method = "GET", body){
 }
 
 /* ---------- accounts ---------- */
+const DEMO_PW = "demo";
+const team = () => { const u = me(); return u ? ACCOUNTS.filter(a => a.ws === u.ws) : []; };
+const isAgency = () => { const u = me(); return !!u && u.ws === "agency"; };
+const userById = id => ACCOUNTS.find(a => a.id === id);
 function renderAccounts(){
-  const group = ws => ACCOUNTS.filter(a => a.ws === ws).map(a => `<button type="button" class="acct" data-acct="${a.id}"><span class="av s28" aria-hidden="true">${esc(initials(a.name))}</span><span class="acct-t"><b>${esc(a.name)}</b><small>${esc(a.role)}</small></span></button>`).join("");
+  const group = ws => ACCOUNTS.filter(a => a.ws === ws).map(a => `<button type="button" class="acct" data-acct="${a.id}"><span class="av s28" aria-hidden="true">${esc(initials(a.name))}</span><span class="acct-t"><b>${esc(a.name)}</b><small>${esc(a.email)} · ${esc(a.role)}</small></span></button>`).join("");
   $("acct-agency").innerHTML = group("agency"); $("acct-solo").innerHTML = group("solo");
 }
-function showLogin(msg){ renderAccounts(); $("login").hidden = false; $("login-err").textContent = msg || ""; setTimeout(() => { const b = document.querySelector(".acct"); b && b.focus(); }, 50); }
+function showLogin(msg){ renderAccounts(); $("login").hidden = false; $("login-err").textContent = msg || ""; $("login-pw").value = ""; setTimeout(() => $("login-email").focus(), 50); }
 function setWho(){
   const u = me(); if (!u) return;
   const W = WORKSPACES[u.ws];
   $("who").innerHTML = `<span class="av s24" aria-hidden="true">${esc(initials(u.name))}</span><span class="who-t">${esc(u.short)}<small>${esc(W.name)}</small></span>`;
-  $("who").setAttribute("aria-label", `Connecté : ${u.name}, ${W.name}. Changer de compte`);
+  $("who").setAttribute("aria-label", `Connecté : ${u.name}, ${W.name}. Se déconnecter`);
   $("ws-line").textContent = u.ws === "agency" ? `${W.name} · ${ACCOUNTS.filter(a => a.ws === u.ws).length} scouts partagent ces joueurs` : `${W.name} · base privée`;
+  document.body.classList.toggle("is-agency", u.ws === "agency");
+  if (typeof deskScope !== "undefined") deskScope.mine = u.ws === "agency" && !u.admin;
 }
 $("login").addEventListener("click", e => {
   const b = e.target.closest("[data-acct]"); if (!b) return;
-  SESSION = { user: b.dataset.acct }; try { localStorage.setItem(SESSION_KEY, JSON.stringify(SESSION)); } catch(_) {}
+  const a = userById(b.dataset.acct); $("login-email").value = a.email; $("login-pw").value = ""; $("login-err").textContent = ""; $("login-pw").focus();
+});
+$("login-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const email = $("login-email").value.trim().toLowerCase(), pw = $("login-pw").value;
+  const a = ACCOUNTS.find(x => x.email === email);
+  if (!a || pw !== DEMO_PW) { $("login-err").textContent = "E-mail ou mot de passe incorrect."; $("login-pw").select(); return; }
+  SESSION = { user: a.id }; try { localStorage.setItem(SESSION_KEY, JSON.stringify(SESSION)); } catch(_) {}
   $("login").hidden = true; closeSheet(); rows = []; setWho(); load(true); if (typeof sxRender === "function") sxRender();
 });
-$("who").onclick = () => showLogin();
+$("who").onclick = () => { SESSION = null; try { localStorage.removeItem(SESSION_KEY); } catch(_) {} rows = []; render(); showLogin(); };
 $("reset-demo-2").onclick = () => { resetDemo(); $("login-err").textContent = "Données de démo réinitialisées."; };
 $("reset-demo").onclick = () => { resetDemo(); closeSheet(); rows = []; load(true); toast("Données de démo réinitialisées"); if (typeof sxRender === "function") sxRender(); };
 
@@ -1880,7 +1941,7 @@ $("sx-body").addEventListener("click", async e => {
     ad.disabled = true; ad.textContent = "Ajout…";
     try {
       const j = await api("players", "POST", { name: p.name, club: p.club, pos: p.goalkeeper ? "GK (1)" : (TM_POS[p.position] || ""), birth: p.birth_date || null,
-        foot: FOOT[p.foot] || "", status: "À suivre", todo: "Follow", due: TODAY, sx: `${p.level} · ${p.up_series}` });
+        foot: FOOT[p.foot] || "", status: "À suivre", todo: "Follow", due: TODAY, assignee: me().id, sx: `${p.level} · ${p.up_series}` });
       rows.push(j.player); render(); sxRender(); toast(`${p.name} ajouté à vos joueurs · liste À revoir`);
     } catch(err) { ad.disabled = false; ad.textContent = "＋ Ajouter à mes joueurs"; showBanner(explain(err).msg); }
     return;
