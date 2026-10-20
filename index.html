@@ -580,10 +580,7 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 .mt-panel h4{margin:0 0 6px;font-size:13px;display:flex;align-items:center}
 .mt-panel h5{margin:10px 0 4px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);font-weight:600}
 .mt-ev ul,.mt-side ul{list-style:none;margin:0;padding:0}
-.mt-ev li{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line);font-size:13px}
 .mt-ev li:last-child{border-bottom:0}
-.mt-ev li .mn{width:30px;color:var(--muted);font-variant-numeric:tabular-nums}
-.mt-ev li .sub2{margin-left:auto;font-size:11px;color:var(--muted)}
 .mt-lineups{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px}
 .mt-side li{display:grid;grid-template-columns:24px minmax(0,1fr) auto;grid-template-areas:"n p a" "n e e";gap:0 8px;padding:5px 0;border-bottom:1px solid var(--line);font-size:13px;align-items:center}
 .mt-side li:last-child{border-bottom:0}
@@ -605,6 +602,20 @@ body:has(#sheet:not([hidden])) .ai-fab,body:has(#sheet:not([hidden])) .ai,body:h
 .ic.sub{font-weight:800;font-size:12px}
 .ic.sub.in{color:var(--green)} .ic.sub.out{color:var(--red)}
 @media (max-width:640px){ .mt-lineups{grid-template-columns:1fr} .mt-score .tm{font-size:15px} .mt-score .clogo{width:24px;height:24px} .mt-score .sc{font-size:20px;padding:3px 10px} }
+
+.mt-ev li{display:grid;grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr);align-items:center;padding:5px 0;border-bottom:1px solid var(--line);font-size:13px}
+.mt-ev li .mn{text-align:center;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:600}
+.mt-ev .evh{display:flex;justify-content:flex-end;text-align:right}
+.mt-ev .eva{display:flex;justify-content:flex-start}
+.mt-ev .evc{display:inline-flex;align-items:center;gap:7px;min-width:0}
+.mt-ev .evh .evc{flex-direction:row-reverse}
+.mt-ev .evn{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+.mt-ev .evn .sub2{font-size:11px;color:var(--muted)}
+.ev-teams{display:grid;grid-template-columns:1fr 44px 1fr;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:2px}
+.ev-teams span{display:flex;align-items:center;gap:6px}
+.ev-teams span:first-child{justify-content:flex-end;grid-column:1}
+.ev-teams span:last-child{grid-column:3}
+.ev-teams .clogo{width:16px;height:16px;margin:0}
 </style>
 </head>
 <body>
@@ -1880,7 +1891,8 @@ function mtOpen(id){
     <div class="mt-score"><div class="tm h">${logo(m.home)}<span id="mt-title">${esc(m.home)}</span></div><div class="sc num">${m.hg} – ${m.ag}</div><div class="tm a"><span>${esc(m.away)}</span>${logo(m.away)}</div></div>
     <p class="mt-info">${esc(date)}${m.loc ? ` · ${esc(m.loc[0])}, ${esc(m.loc[1])}${m.loc[2] ? " (synthétique)" : ""}` : ""}${m.ref ? ` · Arbitre : ${esc(m.ref)}` : ""}</p>
     ${nSx ? `<p class="mt-sx"><span class="lg-sx">${nSx}</span> surclassé${nSx > 1 ? "s" : ""} sur la feuille de match</p>` : ""}
-    ${ev.length ? `<div class="mt-ev"><h4>Faits du match</h4><ul>${ev.map(e => `<li class="${e[1] === "h" ? "h" : "a"}"><span class="mn">${e[0] != null ? e[0] + "'" : ""}</span>${MT_ICON[e[3]] || ""}<span>${esc(e[2])}</span><span class="sub2">${esc(MT_TXT[e[3]])} · ${esc(e[1] === "h" ? m.home : m.away)}</span></li>`).join("")}</ul></div>` : ""}
+    ${ev.length ? `<div class="mt-ev"><h4>Faits du match</h4><div class="ev-teams"><span>${logo(m.home)}${esc(m.home)}</span><span>${esc(m.away)}${logo(m.away)}</span></div><ul>${ev.map(e => { const side = `<span class="evc">${MT_ICON[e[3]] || ""}<span class="evn">${esc(e[2])}<span class="sub2">${esc(MT_TXT[e[3]])}</span></span></span>`;
+      return `<li><span class="evh">${e[1] === "h" ? side : ""}</span><span class="mn">${e[0] != null ? e[0] + "'" : ""}</span><span class="eva">${e[1] === "a" ? side : ""}</span></li>`; }).join("")}</ul></div>` : ""}
     <div class="mt-lineups">${mtSide(m, "h")}${mtSide(m, "a")}</div>
     <p class="lg-hint">Compos et faits du match : feuille de match officielle de la RBFA.</p>`;
   $("mt").hidden = false; document.body.style.overflow = "hidden"; $("mt-close").focus();
